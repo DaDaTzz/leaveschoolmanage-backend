@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yupi.springbootinit.mapper.ProcessSectorMapper">
+
+    <resultMap id="BaseResultMap" type="com.yupi.springbootinit.model.entity.ProcessSector">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="processId" column="processId" jdbcType="BIGINT"/>
+            <result property="sectorId" column="sectorId" jdbcType="BIGINT"/>
+            <result property="isMust" column="isMust" jdbcType="INTEGER"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,processId,sectorId,
+        isMust,createTime,updateTime,
+        isDelete
+    </sql>
+</mapper>

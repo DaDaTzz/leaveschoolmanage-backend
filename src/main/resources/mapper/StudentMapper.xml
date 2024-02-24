@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yupi.springbootinit.mapper.StudentMapper">
+
+    <resultMap id="BaseResultMap" type="com.yupi.springbootinit.model.entity.Student">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="studentId" column="studentId" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="sex" column="sex" jdbcType="INTEGER"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="intakeTime" column="intakeTime" jdbcType="TIMESTAMP"/>
+            <result property="graduationTime" column="graduationTime" jdbcType="TIMESTAMP"/>
+            <result property="gradeId" column="gradeId" jdbcType="BIGINT"/>
+            <result property="educationId" column="educationId" jdbcType="BIGINT"/>
+            <result property="departmentId" column="departmentId" jdbcType="BIGINT"/>
+            <result property="specialityId" column="specialityId" jdbcType="BIGINT"/>
+            <result property="clazzId" column="clazzId" jdbcType="BIGINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,studentId,name,
+        sex,age,intakeTime,
+        graduationTime,gradeId,educationId,
+        departmentId,specialityId,clazzId,
+        createTime,updateTime,isDelete
+    </sql>
+</mapper>

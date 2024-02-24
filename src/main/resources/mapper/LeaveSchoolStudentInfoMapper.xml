@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yupi.springbootinit.mapper.LeaveSchoolStudentInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.yupi.springbootinit.model.entity.LeaveSchoolStudentInfo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="studentId" column="studentId" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="sex" column="sex" jdbcType="INTEGER"/>
+            <result property="intakeTime" column="intakeTime" jdbcType="TIMESTAMP"/>
+            <result property="graduationTimeTime" column="graduationTimeTime" jdbcType="TIMESTAMP"/>
+            <result property="education" column="education" jdbcType="VARCHAR"/>
+            <result property="grade" column="grade" jdbcType="VARCHAR"/>
+            <result property="departmentId" column="departmentId" jdbcType="VARCHAR"/>
+            <result property="specialityId" column="specialityId" jdbcType="VARCHAR"/>
+            <result property="clazzId" column="clazzId" jdbcType="VARCHAR"/>
+            <result property="leaveStatus" column="leaveStatus" jdbcType="INTEGER"/>
+            <result property="leaveSchoolTime" column="leaveSchoolTime" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,studentId,name,
+        age,sex,intakeTime,
+        graduationTimeTime,education,grade,
+        departmentId,specialityId,clazzId,
+        leaveStatus,leaveSchoolTime,createTime,
+        updateTime,isDelete
+    </sql>
+</mapper>
