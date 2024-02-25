@@ -1,5 +1,6 @@
 package com.yupi.springbootinit.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
 import com.yupi.springbootinit.annotation.AuthCheck;
@@ -291,12 +292,15 @@ public class UserController {
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Long> addLeaveManager(@RequestParam Long teacherId){
         ThrowUtils.throwIf(teacherId == null || teacherId <= 0, ErrorCode.PARAMS_ERROR);
-        Teacher teacher = teacherService.getById(teacherId);
+        LambdaQueryWrapper<Teacher> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Teacher::getTeacherId, teacherId);
+        Teacher teacher = teacherService.getOne(queryWrapper);
         ThrowUtils.throwIf(teacher == null,ErrorCode.PARAMS_ERROR);
         User user = new User();
         user.setUserAccount(teacher.getTeacherId());
         final String INIT_PASSWORD = "12345678";
-        user.setUserPassword(INIT_PASSWORD);
+        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + INIT_PASSWORD).getBytes());
+        user.setUserPassword(encryptPassword);
         user.setUserName(teacher.getName());
         ArrayList<String> roles = new ArrayList<>();
         roles.add(UserConstant.LEAVEMANAGER_ROLE);

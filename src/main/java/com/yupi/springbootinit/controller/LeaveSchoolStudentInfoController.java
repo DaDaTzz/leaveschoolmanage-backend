@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 离校学生信息接口
@@ -37,12 +38,12 @@ public class LeaveSchoolStudentInfoController {
      * @return  leaveSchoolStudentInfo VO
      */
     @PostMapping("/list/page/vo")
-    public BaseResponse<Page<LeaveSchoolStudentInfoVO>> listLeaveSchoolStudentInfoVOByPage(@RequestBody LeaveSchoolStudentInfoQueryRequest leaveSchoolStudentInfoQueryRequest) {
+    public BaseResponse<Page<LeaveSchoolStudentInfoVO>> listLeaveSchoolStudentInfoVOByPage(@RequestBody LeaveSchoolStudentInfoQueryRequest leaveSchoolStudentInfoQueryRequest, HttpServletRequest request) {
         long current = leaveSchoolStudentInfoQueryRequest.getCurrent();
         long size = leaveSchoolStudentInfoQueryRequest.getPageSize();
         Page<LeaveSchoolStudentInfo> leaveSchoolStudentInfoPage = leaveSchoolStudentInfoService.page(new Page<>(current, size),
                 leaveSchoolStudentInfoService.getQueryWrapper(leaveSchoolStudentInfoQueryRequest));
-        return ResultUtils.success(leaveSchoolStudentInfoService.getLeaveSchoolStudentInfoVOPage(leaveSchoolStudentInfoPage));
+        return ResultUtils.success(leaveSchoolStudentInfoService.getLeaveSchoolStudentInfoVOPage(leaveSchoolStudentInfoPage,request));
     }
 
 

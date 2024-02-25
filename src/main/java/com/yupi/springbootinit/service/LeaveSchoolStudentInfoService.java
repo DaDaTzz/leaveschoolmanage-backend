@@ -7,6 +7,8 @@ import com.yupi.springbootinit.model.entity.LeaveSchoolStudentInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yupi.springbootinit.model.vo.leaveSchoolStudentInfo.LeaveSchoolStudentInfoVO;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 离校学生信息服务
  * @author Da
@@ -15,7 +17,7 @@ public interface LeaveSchoolStudentInfoService extends IService<LeaveSchoolStude
 
     Wrapper<LeaveSchoolStudentInfo> getQueryWrapper(LeaveSchoolStudentInfoQueryRequest leaveSchoolStudentInfoQueryRequest);
 
-    Page<LeaveSchoolStudentInfoVO> getLeaveSchoolStudentInfoVOPage(Page<LeaveSchoolStudentInfo> leaveSchoolStudentInfoPage);
+    Page<LeaveSchoolStudentInfoVO> getLeaveSchoolStudentInfoVOPage(Page<LeaveSchoolStudentInfo> leaveSchoolStudentInfoPage, HttpServletRequest request);
 
     LeaveSchoolStudentInfoVO getLeaveSchoolStudentInfoVO(LeaveSchoolStudentInfo leaveSchoolStudentInfo);
 }

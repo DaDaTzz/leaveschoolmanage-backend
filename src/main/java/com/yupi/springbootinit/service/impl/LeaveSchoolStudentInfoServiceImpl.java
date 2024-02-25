@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.gson.Gson;
 import com.yupi.springbootinit.constant.CommonConstant;
+import com.yupi.springbootinit.constant.UserConstant;
 import com.yupi.springbootinit.mapper.LeaveSchoolStudentInfoMapper;
 import com.yupi.springbootinit.model.dto.leaveSchoolStudentInfo.LeaveSchoolStudentInfoQueryRequest;
 import com.yupi.springbootinit.model.entity.Process;
@@ -22,9 +24,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 离校学生信息服务实现
@@ -50,6 +55,10 @@ public class LeaveSchoolStudentInfoServiceImpl extends ServiceImpl<LeaveSchoolSt
     private SectorStudentService sectorStudentService;
     @Resource
     private TaskStudentService taskStudentService;
+    @Resource
+    private UserService userService;
+    @Resource
+    private TeacherService teacherService;
 
     @Override
     public Wrapper<LeaveSchoolStudentInfo> getQueryWrapper(LeaveSchoolStudentInfoQueryRequest leaveSchoolStudentInfoQueryRequest) {
@@ -100,7 +109,7 @@ public class LeaveSchoolStudentInfoServiceImpl extends ServiceImpl<LeaveSchoolSt
     }
 
     @Override
-    public Page<LeaveSchoolStudentInfoVO> getLeaveSchoolStudentInfoVOPage(Page<LeaveSchoolStudentInfo> leaveSchoolStudentInfoPage) {
+    public Page<LeaveSchoolStudentInfoVO> getLeaveSchoolStudentInfoVOPage(Page<LeaveSchoolStudentInfo> leaveSchoolStudentInfoPage, HttpServletRequest request) {
         List<LeaveSchoolStudentInfo> leaveSchoolStudentInfoList = leaveSchoolStudentInfoPage.getRecords();
         Page<LeaveSchoolStudentInfoVO> leaveSchoolStudentInfoVOPage = new Page<>(leaveSchoolStudentInfoPage.getCurrent(), leaveSchoolStudentInfoPage.getSize(), leaveSchoolStudentInfoPage.getTotal());
         if (CollUtil.isEmpty(leaveSchoolStudentInfoList)) {
@@ -108,13 +117,30 @@ public class LeaveSchoolStudentInfoServiceImpl extends ServiceImpl<LeaveSchoolSt
         }
         // 填充信息
         List<LeaveSchoolStudentInfoVO> leaveSchoolStudentInfoVOList = new ArrayList<>();
-        leaveSchoolStudentInfoList.forEach(leaveSchoolStudentInfo -> {
+        for (LeaveSchoolStudentInfo leaveSchoolStudentInfo : leaveSchoolStudentInfoList) {
             LeaveSchoolStudentInfoVO leaveSchoolStudentInfoVO = new LeaveSchoolStudentInfoVO();
             leaveSchoolStudentInfoVO = fillLeaveSchoolStudentInfoVOName(leaveSchoolStudentInfoVO, leaveSchoolStudentInfo);
             BeanUtil.copyProperties(leaveSchoolStudentInfo, leaveSchoolStudentInfoVO);
             leaveSchoolStudentInfoVOList.add(leaveSchoolStudentInfoVO);
-        });
+        }
+        // todo 如果权限为老师，只保留该老师所教班级的学生信息
+        User loginUser = userService.getLoginUser(request);
+        String userRole = loginUser.getUserRole();
+        Gson gson = new Gson();
+        List<String> userRoleList = Arrays.asList(gson.fromJson(userRole, String[].class));
+        if(userRoleList.size() == 1 && userRoleList.contains(UserConstant.TEACHER_ROLE)){
+            // 查询出该老师所教班级id
+            String teacherId = loginUser.getUserAccount();
+            LambdaQueryWrapper<Teacher> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Teacher::getTeacherId, teacherId);
+            Teacher teacher = teacherService.getOne(queryWrapper);
+            String clazzId = teacher.getClazzId();
+            List<String> clazzIdList = Arrays.asList(gson.fromJson(clazzId, String[].class));
+            // 移除非所教班级学生信息
+            leaveSchoolStudentInfoVOList = leaveSchoolStudentInfoVOList.stream().filter(leaveSchoolStudentInfoVO ->  clazzIdList.contains(leaveSchoolStudentInfoVO.getClazzId())).collect(Collectors.toList());
+        }
         leaveSchoolStudentInfoVOPage.setRecords(leaveSchoolStudentInfoVOList);
+        leaveSchoolStudentInfoVOPage.setTotal(leaveSchoolStudentInfoVOList.size());
         return leaveSchoolStudentInfoVOPage;
     }
 

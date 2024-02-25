@@ -121,6 +121,7 @@ public class ImportLeaveSchoolStudent implements CommandLineRunner {
         if(processList == null || processList.isEmpty()){
             return new LeaveSchoolStudentInfo();
         }
+        // 根据学生毕业年份绑定流程
         leaveSchoolStudentInfo.setProcessId(processList.get(0).getId());
         return leaveSchoolStudentInfo;
     }
