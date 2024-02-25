@@ -3,7 +3,7 @@ package com.yupi.springbootinit.model.dto.task;
 import lombok.Data;
 
 /**
- * 新增任务请求
+ * 新增任务请求参数封装
  * @author Da
  * @version 1.0
  * @date 2024/2/22 10:23

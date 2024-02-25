@@ -32,6 +32,12 @@ public class User implements Serializable {
     private String userPassword;
 
     /**
+     * 环节id
+     */
+    private String sectorId;
+
+
+    /**
      * 开放平台id
      */
     private String unionId;
@@ -51,13 +57,14 @@ public class User implements Serializable {
      */
     private String userAvatar;
 
+
     /**
      * 用户简介
      */
     private String userProfile;
 
     /**
-     * 用户角色：user/admin/ban
+     * 用户角色
      */
     private String userRole;
 

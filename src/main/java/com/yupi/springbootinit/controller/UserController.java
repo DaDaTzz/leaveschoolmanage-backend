@@ -1,6 +1,7 @@
 package com.yupi.springbootinit.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.gson.Gson;
 import com.yupi.springbootinit.annotation.AuthCheck;
 import com.yupi.springbootinit.common.BaseResponse;
 import com.yupi.springbootinit.common.DeleteRequest;
@@ -10,9 +11,11 @@ import com.yupi.springbootinit.constant.UserConstant;
 import com.yupi.springbootinit.exception.BusinessException;
 import com.yupi.springbootinit.exception.ThrowUtils;
 import com.yupi.springbootinit.model.dto.user.*;
+import com.yupi.springbootinit.model.entity.Teacher;
 import com.yupi.springbootinit.model.entity.User;
 import com.yupi.springbootinit.model.vo.user.LoginUserVO;
 import com.yupi.springbootinit.model.vo.user.UserVO;
+import com.yupi.springbootinit.service.TeacherService;
 import com.yupi.springbootinit.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.yupi.springbootinit.service.impl.UserServiceImpl.SALT;
@@ -37,7 +41,8 @@ public class UserController {
 
     @Resource
     private UserService userService;
-
+    @Resource
+    private TeacherService teacherService;
 
     // region 登录相关
 
@@ -275,4 +280,35 @@ public class UserController {
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(true);
     }
+
+
+    /**
+     * 设置离校管理员（只允许给老师设置）
+     * @param teacherId 老师id
+     * @return 新增管理员 id
+     */
+    @PostMapping("/addLeaveManager")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Long> addLeaveManager(@RequestParam Long teacherId){
+        ThrowUtils.throwIf(teacherId == null || teacherId <= 0, ErrorCode.PARAMS_ERROR);
+        Teacher teacher = teacherService.getById(teacherId);
+
+        ThrowUtils.throwIf(teacher == null,ErrorCode.PARAMS_ERROR);
+        User user = new User();
+        user.setUserAccount(teacher.getTeacherId());
+        final String INIT_PASSWORD = "12345678";
+        user.setUserPassword(INIT_PASSWORD);
+        user.setUserName(teacher.getName());
+        ArrayList<String> roles = new ArrayList<>();
+        roles.add(UserConstant.LEAVEMANAGER_ROLE);
+        roles.add(UserConstant.TEACHER_ROLE);
+        user.setUserRole(new Gson().toJson(roles));
+        userService.save(user);
+        return ResultUtils.success(user.getId());
+    }
+
+
+
+
+
 }

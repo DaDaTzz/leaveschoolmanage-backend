@@ -1,24 +1,30 @@
-package com.yupi.springbootinit.model.entity;
+package com.yupi.springbootinit.model.dto.teacher;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.yupi.springbootinit.common.PageRequest;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 老师
- * @TableName teacher
+ * 查询老师请求参数封装
  * @author Da
+ * @since 2024-02-25 12:51
  */
-@TableName(value ="teacher")
 @Data
-public class Teacher implements Serializable {
+public class TeacherQueryRequest extends PageRequest implements Serializable {
+
+
+    /**
+     * 搜索词
+     */
+    private String searchText;
+
     /**
      * id
      */
-    @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
 
     /**
      * 工号
@@ -55,21 +61,7 @@ public class Teacher implements Serializable {
      */
     private String clazzId;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
 
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
-     * 是否删除
-     */
-    @TableLogic
-    private Integer isDelete;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

@@ -1,5 +1,6 @@
 package com.yupi.springbootinit.aop;
 
+import com.google.gson.Gson;
 import com.yupi.springbootinit.annotation.AuthCheck;
 import com.yupi.springbootinit.common.ErrorCode;
 import com.yupi.springbootinit.exception.BusinessException;
@@ -17,6 +18,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 权限校验 AOP
@@ -51,14 +54,34 @@ public class AuthInterceptor {
             if (mustUserRoleEnum == null) {
                 throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
             }
-            String userRole = loginUser.getUserRole();
+            String userRoleStr = loginUser.getUserRole();
+            Gson gson = new Gson();
+            List<String> userRolesList = Arrays.asList(gson.fromJson(userRoleStr, String[].class));
             // 如果被封号，直接拒绝
-            if (UserRoleEnum.BAN.equals(mustUserRoleEnum)) {
+            if(userRolesList.contains(UserRoleEnum.BAN.getValue())){
                 throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
             }
+//            if (UserRoleEnum.BAN.equals(mustUserRoleEnum)) {
+//                throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+//            }
             // 必须有管理员权限
             if (UserRoleEnum.ADMIN.equals(mustUserRoleEnum)) {
-                if (!mustRole.equals(userRole)) {
+                if(!userRolesList.contains(mustRole)){
+                    throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+                }
+//                if (!mustRole.equals(userRole)) {
+//                    throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+//                }
+            }
+            // 必须有离校管理员权限
+            if (UserRoleEnum.LEAVEMANAGER.equals(mustUserRoleEnum)) {
+                if(!userRolesList.contains(mustRole)){
+                    throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+                }
+            }
+            // 必须有老师权限
+            if (UserRoleEnum.TEACHER.equals(mustUserRoleEnum)) {
+                if(!userRolesList.contains(mustRole)){
                     throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
                 }
             }

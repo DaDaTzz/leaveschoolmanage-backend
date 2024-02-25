@@ -3,10 +3,12 @@ package com.yupi.springbootinit.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yupi.springbootinit.annotation.AuthCheck;
 import com.yupi.springbootinit.common.BaseResponse;
 import com.yupi.springbootinit.common.DeleteRequest;
 import com.yupi.springbootinit.common.ErrorCode;
 import com.yupi.springbootinit.common.ResultUtils;
+import com.yupi.springbootinit.constant.UserConstant;
 import com.yupi.springbootinit.exception.BusinessException;
 import com.yupi.springbootinit.exception.ThrowUtils;
 import com.yupi.springbootinit.model.dto.sector.AddSectorRequest;
@@ -56,6 +58,7 @@ public class SectorController {
      * @return true 新增成功 | false 新增失败
      */
     @PostMapping("/add")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> addSector(@RequestBody AddSectorRequest addSectorRequest) {
         // TODO 权限校验 【管理员】
         ThrowUtils.throwIf(addSectorRequest == null, new BusinessException(ErrorCode.PARAMS_ERROR));
@@ -69,6 +72,7 @@ public class SectorController {
      * @return true 修改成功 | false 修改失败
      */
     @PostMapping("/update")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> updateSector(@RequestBody UpdateSectorRequest updateSectorRequest) {
         // todo 权限校验 【管理员】
         ThrowUtils.throwIf(updateSectorRequest == null || updateSectorRequest.getId() <= 0, new BusinessException(ErrorCode.PARAMS_ERROR, "请求参数错误"));
@@ -92,6 +96,7 @@ public class SectorController {
      * @return 环节分页对象
      */
     @PostMapping("/list/sector")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Page<Sector>> listSectorByPage(@RequestBody SectorQueryRequest sectorQueryRequest) {
         // todo 权限校验 【管理员】
         long current = sectorQueryRequest.getCurrent();
@@ -125,6 +130,7 @@ public class SectorController {
      */
     @PostMapping("/delete")
     @Transactional(rollbackFor = Exception.class)
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> deleteSector(@RequestBody DeleteRequest deleteRequest) {
         ThrowUtils.throwIf(deleteRequest == null || deleteRequest.getIdList().isEmpty(), ErrorCode.PARAMS_ERROR);
         // todo 权限校验 【管理员】
