@@ -13,8 +13,8 @@
             <result property="intakeTime" column="intakeTime" jdbcType="TIMESTAMP"/>
             <result property="graduationTime" column="graduationTime" jdbcType="TIMESTAMP"/>
             <result property="gradeId" column="gradeId" jdbcType="BIGINT"/>
-            <result property="educationId" column="educationId" jdbcType="BIGINT"/>
-            <result property="departmentId" column="departmentId" jdbcType="BIGINT"/>
+            <result property="schoolingId" column="educationId" jdbcType="BIGINT"/>
+            <result property="collegeId" column="departmentId" jdbcType="BIGINT"/>
             <result property="specialityId" column="specialityId" jdbcType="BIGINT"/>
             <result property="clazzId" column="clazzId" jdbcType="BIGINT"/>
             <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
@@ -25,8 +25,8 @@
     <sql id="Base_Column_List">
         id,studentId,name,
         sex,age,intakeTime,
-        graduationTime,gradeId,educationId,
-        departmentId,specialityId,clazzId,
+        graduationTime,gradeId,collegeId,
+        schoolingId,specialityId,clazzId,
         createTime,updateTime,isDelete
     </sql>
 </mapper>

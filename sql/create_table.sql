@@ -172,6 +172,22 @@ CREATE TABLE `sector_student`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci COMMENT ='环节学生关联';
 
+
+CREATE TABLE `task_student`
+(
+    `id`               bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `taskId`         bigint(20) NOT NULL COMMENT '任务id',
+    `studentId`        bigint(20) NOT NULL COMMENT '学生id',
+    `completionStatus` int(11)    NOT NULL DEFAULT '0' COMMENT '完成情况（0-未完成 1-已完成）',
+    `completionTime`   datetime    COMMENT '完成时间',
+    `createTime`       datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updateTime`       datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `isDelete`         tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否删除',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci COMMENT ='任务学生关联';
+
 CREATE TABLE `sector_task`
 (
     `id`         bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',

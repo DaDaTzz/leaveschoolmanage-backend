@@ -28,7 +28,7 @@ import javax.annotation.Resource;
  * @author Da
  */
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/teacher")
 @Slf4j
 public class TeacherController {
 

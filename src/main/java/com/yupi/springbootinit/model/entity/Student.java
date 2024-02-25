@@ -58,12 +58,12 @@ public class Student implements Serializable {
     /**
      * 学历id
      */
-    private Long educationId;
+    private Long schoolingId;
 
     /**
      * 学院id
      */
-    private Long departmentId;
+    private Long collegeId;
 
     /**
      * 专业id

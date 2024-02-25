@@ -292,7 +292,6 @@ public class UserController {
     public BaseResponse<Long> addLeaveManager(@RequestParam Long teacherId){
         ThrowUtils.throwIf(teacherId == null || teacherId <= 0, ErrorCode.PARAMS_ERROR);
         Teacher teacher = teacherService.getById(teacherId);
-
         ThrowUtils.throwIf(teacher == null,ErrorCode.PARAMS_ERROR);
         User user = new User();
         user.setUserAccount(teacher.getTeacherId());
@@ -306,8 +305,6 @@ public class UserController {
         userService.save(user);
         return ResultUtils.success(user.getId());
     }
-
-
 
 
 

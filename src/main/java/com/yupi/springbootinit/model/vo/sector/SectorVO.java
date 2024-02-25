@@ -1,11 +1,12 @@
 package com.yupi.springbootinit.model.vo.sector;
 
 import com.yupi.springbootinit.model.entity.Sector;
-import com.yupi.springbootinit.model.entity.Task;
+import com.yupi.springbootinit.model.vo.task.TaskVO;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,7 +62,18 @@ public class SectorVO implements Serializable {
     /**
      * 任务列表
      */
-    private List<Task> taskList;
+    private List<TaskVO> taskVOList;
+
+    /**
+     * 完成时间
+     */
+    private Date completionTime;
+
+    /**
+     * 完成状态
+     */
+    private Integer completionStatus;
+
 
 
     /**

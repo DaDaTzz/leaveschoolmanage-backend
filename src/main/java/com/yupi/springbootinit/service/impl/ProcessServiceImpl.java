@@ -17,10 +17,10 @@ import com.yupi.springbootinit.model.dto.process.ProcessQueryRequest;
 import com.yupi.springbootinit.model.entity.Process;
 import com.yupi.springbootinit.model.entity.ProcessSector;
 import com.yupi.springbootinit.model.entity.Sector;
-import com.yupi.springbootinit.model.entity.Task;
 import com.yupi.springbootinit.model.vo.process.ProcessVO;
 import com.yupi.springbootinit.model.vo.sector.SectorIsMustVO;
 import com.yupi.springbootinit.model.vo.sector.SectorVO;
+import com.yupi.springbootinit.model.vo.task.TaskVO;
 import com.yupi.springbootinit.service.ProcessSectorService;
 import com.yupi.springbootinit.service.ProcessService;
 import com.yupi.springbootinit.service.SectorService;
@@ -156,9 +156,9 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process>
         // 2.关联查询任务信息
         sectorVOList.forEach(sectorVO -> {
             List<Map<String, String>> tasksList = sectorMapper.listTaskSectorById(sectorVO.getId());
-            List<Task> taskList = new ArrayList<>();
-            tasksList.forEach(taskMap -> taskList.add(BeanUtil.mapToBean(taskMap, Task.class, true, CopyOptions.create())));
-            sectorVO.setTaskList(taskList);
+            List<TaskVO> taskVOList = new ArrayList<>();
+            tasksList.forEach(taskMap -> taskVOList.add(BeanUtil.mapToBean(taskMap, TaskVO.class, true, CopyOptions.create())));
+            sectorVO.setTaskVOList(taskVOList);
         });
         processVO.setSectorVOList(sectorVOList);
         return processVO;

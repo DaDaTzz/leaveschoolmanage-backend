@@ -1,19 +1,27 @@
-package com.yupi.springbootinit.model.entity;
+package com.yupi.springbootinit.model.dto.leaveSchoolStudentInfo;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.yupi.springbootinit.common.PageRequest;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 离校学生信息
- * @TableName leave_school_student_info
+ * 新增老师请求参数封装
  * @author Da
+ * @since 2024-02-25 12:51
  */
-@TableName(value ="leave_school_student_info")
 @Data
-public class LeaveSchoolStudentInfo implements Serializable {
+public class LeaveSchoolStudentInfoQueryRequest extends PageRequest implements Serializable {
+
+    /**
+     * 搜索词
+     */
+    private String searchText;
+
     /**
      * id
      */
@@ -61,6 +69,11 @@ public class LeaveSchoolStudentInfo implements Serializable {
     private String gradeId;
 
     /**
+     * 流程id
+     */
+    private Long processId;
+
+    /**
      * 学院id
      */
     private String collegeId;
@@ -75,12 +88,6 @@ public class LeaveSchoolStudentInfo implements Serializable {
      */
     private String clazzId;
 
-
-    /**
-     * 流程名称
-     */
-    private Long processId;
-
     /**
      * 性别（0-未离校 1-离校）
      */
@@ -90,22 +97,6 @@ public class LeaveSchoolStudentInfo implements Serializable {
      * 离校时间
      */
     private Date leaveSchoolTime;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
-     * 是否删除
-     */
-    @TableLogic
-    private Integer isDelete;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

@@ -6,15 +6,16 @@
 
     <resultMap id="BaseResultMap" type="com.yupi.springbootinit.model.entity.LeaveSchoolStudentInfo">
             <id property="id" column="id" jdbcType="BIGINT"/>
+            <id property="processId" column="processId" jdbcType="BIGINT"/>
             <result property="studentId" column="studentId" jdbcType="VARCHAR"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="age" column="age" jdbcType="INTEGER"/>
             <result property="sex" column="sex" jdbcType="INTEGER"/>
             <result property="intakeTime" column="intakeTime" jdbcType="TIMESTAMP"/>
             <result property="graduationTimeTime" column="graduationTimeTime" jdbcType="TIMESTAMP"/>
-            <result property="education" column="education" jdbcType="VARCHAR"/>
-            <result property="grade" column="grade" jdbcType="VARCHAR"/>
-            <result property="departmentId" column="departmentId" jdbcType="VARCHAR"/>
+            <result property="schoolingId" column="education" jdbcType="VARCHAR"/>
+            <result property="gradeId" column="grade" jdbcType="VARCHAR"/>
+            <result property="collegeId" column="departmentId" jdbcType="VARCHAR"/>
             <result property="specialityId" column="specialityId" jdbcType="VARCHAR"/>
             <result property="clazzId" column="clazzId" jdbcType="VARCHAR"/>
             <result property="leaveStatus" column="leaveStatus" jdbcType="INTEGER"/>
@@ -27,8 +28,8 @@
     <sql id="Base_Column_List">
         id,studentId,name,
         age,sex,intakeTime,
-        graduationTimeTime,education,grade,
-        departmentId,specialityId,clazzId,
+        graduationTimeTime,schoolingId,gradeId,processId,
+        collegeId,specialityId,clazzId,
         leaveStatus,leaveSchoolTime,createTime,
         updateTime,isDelete
     </sql>

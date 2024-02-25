@@ -17,6 +17,7 @@ import com.yupi.springbootinit.model.entity.Sector;
 import com.yupi.springbootinit.model.entity.SectorTask;
 import com.yupi.springbootinit.model.entity.Task;
 import com.yupi.springbootinit.model.vo.sector.SectorVO;
+import com.yupi.springbootinit.model.vo.task.TaskVO;
 import com.yupi.springbootinit.service.SectorService;
 import com.yupi.springbootinit.service.SectorTaskService;
 import com.yupi.springbootinit.service.TaskService;
@@ -149,9 +150,9 @@ public class SectorServiceImpl extends ServiceImpl<SectorMapper, Sector>
         Long sectorId = sector.getId();
         // 1. 关联查询任务信息
         List<Map<String, String>> tasksList = sectorMapper.listTaskSectorById(sectorId);
-        List<Task> taskList = new ArrayList<>();
-        tasksList.forEach(taskMap -> taskList.add(BeanUtil.mapToBean(taskMap, Task.class, true, CopyOptions.create())));
-        sectorVO.setTaskList(taskList);
+        List<TaskVO> taskVOList = new ArrayList<>();
+        tasksList.forEach(taskMap -> taskVOList.add(BeanUtil.mapToBean(taskMap, TaskVO.class, true, CopyOptions.create())));
+        sectorVO.setTaskVOList(taskVOList);
         return sectorVO;
     }
 
