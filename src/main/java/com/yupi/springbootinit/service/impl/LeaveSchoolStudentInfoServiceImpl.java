@@ -123,7 +123,7 @@ public class LeaveSchoolStudentInfoServiceImpl extends ServiceImpl<LeaveSchoolSt
             BeanUtil.copyProperties(leaveSchoolStudentInfo, leaveSchoolStudentInfoVO);
             leaveSchoolStudentInfoVOList.add(leaveSchoolStudentInfoVO);
         }
-        // todo 如果权限为老师，只保留该老师所教班级的学生信息
+        //如果权限为老师，只保留该老师所教班级的学生信息
         User loginUser = userService.getLoginUser(request);
         String userRole = loginUser.getUserRole();
         Gson gson = new Gson();
